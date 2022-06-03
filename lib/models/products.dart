@@ -4,29 +4,12 @@
 
 import 'dart:convert';
 
+Product productFromMap(String str) => Product.fromMap(json.decode(str));
+
+String productToMap(Product data) => json.encode(data.toMap());
+
 class Product {
   Product({
-    this.results,
-  });
-
-  List<Result>? results;
-
-  factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Product.fromMap(Map<String, dynamic> json) => Product(
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromMap(x))),
-      );
-
-  Map<String, dynamic> toMap() => {
-        "results": List<dynamic>.from(results!.map((x) => x.toMap())),
-      };
-}
-
-class Result {
-  Result({
     this.id,
     required this.nombre,
     required this.precio,
@@ -42,11 +25,7 @@ class Result {
   bool disponible;
   String? img;
 
-  factory Result.fromJson(String str) => Result.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Result.fromMap(Map<String, dynamic> json) => Result(
+  factory Product.fromMap(Map<String, dynamic> json) => Product(
         id: json["_id"],
         nombre: json["nombre"],
         precio: json["precio"].toDouble(),
@@ -67,16 +46,12 @@ class Result {
 
 class Categoria {
   Categoria({
-    this.id,
+    required this.id,
     required this.nombre,
   });
 
-  String? id;
+  String id;
   String nombre;
-
-  factory Categoria.fromJson(String str) => Categoria.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
 
   factory Categoria.fromMap(Map<String, dynamic> json) => Categoria(
         id: json["_id"],

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class ProductsService extends ChangeNotifier {
   final String _baseURL = 'bones.webmul.com';
-  final List<Result> products = [];
+  final List<Product> products = [];
   bool isLoading = true;
 
   //Hacer fetch de productos.
@@ -22,7 +22,7 @@ class ProductsService extends ChangeNotifier {
 
     final Map<String, dynamic> productsMap = json.decode(resp.body);
     productsMap.forEach((key, value) {
-      final tempProduct = Result.fromMap(value);
+      final tempProduct = Product.fromMap(value);
       tempProduct.id = key;
       products.add(tempProduct);
     });
