@@ -58,13 +58,22 @@ class ProductsService extends ChangeNotifier {
 
   Future<String> updateProduct(Product product) async {
     final url = Uri.https(_baseURL, 'api/productos/${product.id}');
+    const JsonDecoder jsonDecoder = JsonDecoder();
+
+    const data = {'nombre': 'nombre'};
+    final productJson = jsonDecoder.convert(product.toJson());
+
+    final intento = product.toJson();
+
     final resp = await http.put(url, body: product.toJson(), headers: {
       "x-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mjg1NDU0ZjFhOTRkNmQ1MTBkZjYzZjgiLCJpYXQiOjE2NTQzNzEyNjcsImV4cCI6MTY1NDM4NTY2N30.SjXSNHAmIua8fmMNb8MO7qkP_g2ZqkVrLaQUhJRxUFk"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mjg1NDU0ZjFhOTRkNmQ1MTBkZjYzZjgiLCJpYXQiOjE2NTQzNzEyNjcsImV4cCI6MTY1NDM4NTY2N30.SjXSNHAmIua8fmMNb8MO7qkP_g2ZqkVrLaQUhJRxUFk",
+      "Content-Type": "application/json"
     });
     final decodedData = resp.body;
-    print(product.toJson());
+    // print(product.toJson());
 
+    print(productJson);
     print(decodedData);
 
     //Actualizar listado de productos
