@@ -25,6 +25,9 @@ class Product {
   bool disponible;
   String? img;
 
+  factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
+  String toJson() => json.encode(toMap());
+
   factory Product.fromMap(Map<String, dynamic> json) => Product(
         id: json["_id"],
         nombre: json["nombre"],
@@ -42,6 +45,14 @@ class Product {
         "disponible": disponible,
         "img": img,
       };
+  Product copy() => Product(
+        id: id,
+        nombre: nombre,
+        precio: precio,
+        categoria: categoria,
+        disponible: disponible,
+        img: img,
+      );
 }
 
 class Categoria {
