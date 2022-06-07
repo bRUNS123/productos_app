@@ -41,7 +41,7 @@ class Product {
         "_id": id,
         "nombre": nombre,
         "precio": precio,
-        "categoria": categoria!.toMap(),
+        "categoria": categoria?.toMap(),
         "disponible": disponible,
         "img": img,
       };
