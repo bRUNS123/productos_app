@@ -10,7 +10,7 @@ class ProductsService extends ChangeNotifier {
   final List<Product> products = [];
   final headers = {
     "x-token":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mjg1NDU0ZjFhOTRkNmQ1MTBkZjYzZjgiLCJpYXQiOjE2NTQ2MTc5MDcsImV4cCI6MTY1NDYzMjMwN30.GcAW1rEtRQ7crmFTRPUnSk1Ppao8KDMKu3e_XB7JqFk",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mjg1NDU0ZjFhOTRkNmQ1MTBkZjYzZjgiLCJpYXQiOjE2NTQ2NDkzMDQsImV4cCI6MTY1NDY2MzcwNH0.Ya2BhBFkbCARsd3vBjJBHN25U5-G3k6v7sehQXoqrkU",
     "Content-Type": "application/json"
   };
 
