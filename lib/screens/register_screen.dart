@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
+import 'package:productos_app/services/services.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:productos_app/services/services.dart';
+
 import '../ui/input_decoration.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,8 @@ class LoginScreen extends StatelessWidget {
             CardContainer(
               child: Column(children: [
                 SizedBox(height: size.height * 0.01),
-                Text('Login', style: Theme.of(context).textTheme.headline4),
+                Text('Crear cuenta',
+                    style: Theme.of(context).textTheme.headline4),
                 SizedBox(height: size.height * 0.03),
                 ChangeNotifierProvider(
                   create: (_) => LoginFormProvider(),
@@ -35,9 +37,9 @@ class LoginScreen extends StatelessWidget {
                         Colors.indigo.withOpacity(0.1)),
                     shape: MaterialStateProperty.all(StadiumBorder())),
                 onPressed: () =>
-                    Navigator.pushReplacementNamed(context, 'register'),
+                    Navigator.pushReplacementNamed(context, 'login'),
                 child: Text(
-                  'Crear una nueva cuenta',
+                  '¿Ya tienes una cuenta?',
                   style: TextStyle(fontSize: 18, color: Colors.black87),
                 )),
             SizedBox(height: size.height * 0.05),
@@ -61,6 +63,28 @@ class _LoginForm extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Column(
           children: [
+            TextFormField(
+              onChanged: (value) {
+                loginForm.nombre = value;
+              },
+              autocorrect: false,
+              keyboardType: TextInputType.name,
+              decoration: InputDecorations.authInputDecoration(
+                  labelText: 'Usuario',
+                  hintText: 'usuario',
+                  prefixIcon: Icons.person),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'El usuario es obligatorio';
+                }
+                if (value.trim().length < 4) {
+                  return 'El usuario debe contener 4 letras como minimo';
+                }
+                // Return null if the entered username is valid
+                return null;
+              },
+            ),
+            SizedBox(height: size.height * 0.03),
             TextFormField(
               onChanged: (value) {
                 loginForm.email = value;
@@ -112,16 +136,15 @@ class _LoginForm extends StatelessWidget {
                       loginForm.isLoading = true;
 
                       //Petición http.
-                      final String? errorMessage = await authService.loginUser(
-                        loginForm.email,
-                        loginForm.password,
-                      );
+                      final String? errorMessage = await authService.createUser(
+                          loginForm.email,
+                          loginForm.password,
+                          loginForm.nombre);
                       if (errorMessage == null) {
                         Navigator.pushReplacementNamed(context, 'home');
                       } else {
                         //Mostrar error en pantalla.
                         print(errorMessage);
-                        NotificationsService.showSnackbar(errorMessage);
                         loginForm.isLoading = false;
                       }
                     },

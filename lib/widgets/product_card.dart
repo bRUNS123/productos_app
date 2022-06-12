@@ -176,7 +176,10 @@ class _BackgroundImage extends StatelessWidget {
               )
             : FadeInImage(
                 placeholder: AssetImage('assets/jar-loading.gif'),
-                image: NetworkImage(img!),
+                image: img!.contains('http')
+                    ? NetworkImage(img!)
+                    : NetworkImage(
+                        'http://10.0.2.2:3000/api/uploads/img/productos/${img!}'),
                 fit: BoxFit.cover,
               ),
       ),
