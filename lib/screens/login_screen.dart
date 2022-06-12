@@ -121,7 +121,8 @@ class _LoginForm extends StatelessWidget {
                       } else {
                         //Mostrar error en pantalla.
                         print(errorMessage);
-                        NotificationsService.showSnackbar(errorMessage);
+                        NotificationsService.showSnackbar(
+                            'Error al iniciar sesión.');
                         loginForm.isLoading = false;
                       }
                     },

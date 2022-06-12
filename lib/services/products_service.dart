@@ -13,23 +13,24 @@ class ProductsService extends ChangeNotifier {
   final String _baseURL = '10.0.2.2:3000';
   final List<Product> products = [];
   File? newPictureFile;
- 
 
   final storage = const FlutterSecureStorage();
-  final token = getToken();
-  final headers = {
-    "x-token":token;
-       ,
-    "Content-Type": "application/json"
-  };
+  // final token = getToken();
+  // final headers = {
+  //   "x-token":token;
+  //      ,
+  //   "Content-Type": "application/json"
+  // };
   // final headers = {
   //   "x-token":
   //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2Mjg1NDU0ZjFhOTRkNmQ1MTBkZjYzZjgiLCJpYXQiOjE2NTQ5NjgyOTEsImV4cCI6MTY1NDk4MjY5MX0.8MVG7piQ8wnItH5NVeci6Em8Dzb8njSUvljuAvumIdU",
   //   "Content-Type": "application/json"
   // };
-  Future<String?> getToken() async {
+
+  Future<Map<String, String>> getToken() async {
     final token = await storage.read(key: 'token');
-    return token;
+    print('Token: ${token}');
+    return {"x-token": token!, "Content-Type": "application/json"};
   }
 
   late Product selectedProduct;
@@ -41,8 +42,6 @@ class ProductsService extends ChangeNotifier {
   ProductsService() {
     loadProducts();
   }
-
-
 
 //TODO <List<Product>>
   Future loadProducts() async {
@@ -84,6 +83,9 @@ class ProductsService extends ChangeNotifier {
   }
 
   Future<String> updateProduct(Product product) async {
+    Map<String, String> headers = await getToken();
+    // final headers = {"x-token": token, "Content-Type": "application/json"};
+
     final url = Uri.http(_baseURL, 'api/productos/${product.id}');
     final resp = await http.put(url, body: product.toJson(), headers: headers);
     final decodedData = resp.body;
@@ -113,6 +115,7 @@ class ProductsService extends ChangeNotifier {
       };
 
       String jsonProduct = json.encode(productToBack);
+      Map<String, String> headers = await getToken();
 
       final resp = await http.post(url, body: jsonProduct, headers: headers);
 
